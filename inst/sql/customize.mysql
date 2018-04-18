@@ -1,0 +1,61 @@
+
+ALTER TABLE AllstarFull ADD PRIMARY KEY (playerID, yearID, gameNum);
+ALTER TABLE Appearances ADD PRIMARY KEY (yearID, teamID, playerID);
+ALTER TABLE Appearances ADD INDEX playerID (playerID, yearID);
+ALTER TABLE AwardsManagers ADD PRIMARY KEY (yearID, awardID, lgID, playerID);
+ALTER TABLE AwardsPlayers ADD PRIMARY KEY (yearID, awardID, lgID, playerID);
+ALTER TABLE AwardsShareManagers ADD PRIMARY KEY (yearID, awardID, lgID, playerID);
+ALTER TABLE AwardsSharePlayers ADD PRIMARY KEY (yearID, awardID, lgID, playerID);
+ALTER TABLE Batting ADD PRIMARY KEY (playerID, yearID, stint);
+ALTER TABLE Batting ADD INDEX playerID (playerID);
+ALTER TABLE Batting ADD INDEX team (teamID, yearID, lgID);
+ALTER TABLE BattingPost ADD PRIMARY KEY (playerID, yearID, round);
+ALTER TABLE BattingPost ADD INDEX playerID (playerID);
+ALTER TABLE BattingPost ADD INDEX team (teamID, yearID, lgID);
+ALTER TABLE Fielding ADD PRIMARY KEY (playerID, yearID, teamId, stint, POS);
+ALTER TABLE Fielding ADD INDEX playerID (playerID);
+ALTER TABLE Fielding ADD INDEX team (teamID, yearID, lgID);
+ALTER TABLE FieldingOF ADD PRIMARY KEY (playerID, yearID, stint);
+ALTER TABLE FieldingOF ADD INDEX playerID (playerID);
+ALTER TABLE FieldingPost ADD PRIMARY KEY (playerID, yearID, round, POS);
+ALTER TABLE FieldingPost ADD INDEX playerID (playerID);
+ALTER TABLE FieldingPost ADD INDEX team (teamID, yearID, lgID);
+ALTER TABLE FieldingPost ADD INDEX round (yearID, round, teamID, lgID);
+ALTER TABLE HallOfFame ADD PRIMARY KEY (playerID, yearID, votedBy);
+ALTER TABLE HallOfFame ADD INDEX hofID (playerID);
+ALTER TABLE Managers ADD PRIMARY KEY (playerID, yearID, teamID, inseason);
+ALTER TABLE Managers ADD INDEX team (teamID, yearID, lgID);
+ALTER TABLE ManagersHalf ADD PRIMARY KEY (playerID, yearID, teamID, half);
+ALTER TABLE Master ADD PRIMARY KEY (playerID);
+-- ALTER TABLE Master ADD UNIQUE (bbrefID);
+-- ALTER TABLE Master ADD UNIQUE (retroID);
+ALTER TABLE Pitching ADD PRIMARY KEY (playerID, yearID, stint);
+ALTER TABLE Pitching ADD INDEX playerID (playerID);
+ALTER TABLE Pitching ADD INDEX team (teamID, yearID, lgID);
+ALTER TABLE PitchingPost ADD PRIMARY KEY (playerID, yearID, round);
+ALTER TABLE PitchingPost ADD INDEX playerID (playerID);
+ALTER TABLE PitchingPost ADD INDEX team (teamID, yearID, lgID);
+ALTER TABLE Salaries ADD PRIMARY KEY (yearID, teamID, lgID, playerID);
+ALTER TABLE Salaries ADD INDEX playerID (playerID);
+ALTER TABLE Schools ADD PRIMARY KEY (schoolID);
+-- ALTER TABLE SchoolsPlayers ADD PRIMARY KEY (playerID, schoolID);
+ALTER TABLE Teams ADD PRIMARY KEY (yearID, lgID, teamID);
+ALTER TABLE Teams ADD INDEX team (teamID, yearID, lgID);
+ALTER TABLE TeamsFranchises ADD PRIMARY KEY (franchID);
+ALTER TABLE TeamsHalf ADD PRIMARY KEY (yearID, teamID, lgID, half);
+
+
+ALTER TABLE Teams add SH smallint(3) unsigned NOT NULL default 0;
+ALTER TABLE Teams add TPA smallint(4) unsigned NOT NULL default 0;
+
+
+
+
+
+DROP VIEW IF EXISTS teams_summary;
+CREATE VIEW teams_summary AS
+  SELECT yearId, lgId, sum(w) as W, sum(l) as L, sum(w-l) as Diff
+  , sum(r) as RS, sum(ra) as RA, 1/(1 + pow(sum(ra)/sum(r),2)) as Pyth
+--  , sum(hr)/sum(tpa) as HRPA, sum(bb)/sum(tpa) as BBPA, sum(so)/sum(tpa) as SOPA
+  FROM Teams
+  GROUP BY yearId, lgId;

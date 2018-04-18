@@ -3,3 +3,6 @@
 S3method(etl_extract,etl_etllahman)
 S3method(etl_load,etl_etllahman)
 S3method(etl_transform,etl_etllahman)
+import(etl)
+importFrom(DBI,dbExecute)
+importFrom(magrittr,"%>%")

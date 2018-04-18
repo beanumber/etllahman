@@ -3,12 +3,28 @@
 \name{etl_extract.etl_etllahman}
 \alias{etl_extract.etl_etllahman}
 \alias{etl_transform.etl_etllahman}
-\title{etl_extract.etl_etllahman}
+\alias{etl_load.etl_etllahman}
+\title{etl_extract.etl_etllahman
+ETL methods for accessing the Lahman Database}
+\source{
+\url{http://www.seanlahman.com/baseball-archive/statistics/}
+}
 \usage{
 \method{etl_extract}{etl_etllahman}(obj, ...)
 
 \method{etl_transform}{etl_etllahman}(obj, ...)
+
+\method{etl_load}{etl_etllahman}(obj, ...)
+}
+\arguments{
+\item{obj}{an \code{\link{etl}} object}
+
+\item{...}{arguments passed to methods}
 }
 \description{
 etl_extract.etl_etllahman
+ETL methods for accessing the Lahman Database
+}
+\seealso{
+\code{\link[etl]{etl_extract}}
 }

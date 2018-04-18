@@ -24,6 +24,7 @@ etl_transform.etl_etllahman <- function(obj, ...) {
 etl_load.etl_etllahman <- function(obj, ...) {
   sql <- list.files(attr(obj, "load"), pattern = ".sql", full.names = TRUE) %>%
     utils::head(1)
-  etl::dbRunScript(conn = obj$con, script = sql)
+#  etl::dbRunScript(conn = obj$con, script = sql)
+  system(paste0("mysql < '", sql, "'"))
   invisible(obj)
 }
